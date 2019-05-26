@@ -15,11 +15,17 @@
  * =============================================================================
  */
 
-import * as tf from '@tensorflow/tfjs-node-gpu';
-import '@tensorflow/tfjs-node-gpu-node';
+import * as tf from "@tensorflow/tfjs-node-gpu";
+import "@tensorflow/tfjs-node-gpu";
 
-import {TextData} from './data';
-import {createModel, compileModel, fitModel, generateText, sample} from './model';
+import { TextData } from "./data";
+import {
+  createModel,
+  compileModel,
+  fitModel,
+  generateText,
+  sample
+} from "./model";
 
 // tslint:disable:max-line-length
 const FAKE_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempor aliquet justo non varius. Curabitur eget convallis velit. Vivamus malesuada, tortor ut finibus posuere, libero lacus eleifend felis, sit amet tempus dolor magna id nibh. Praesent non turpis libero. Praesent luctus, neque vitae suscipit suscipit, arcu neque aliquam justo, eget gravida diam augue nec lorem. Etiam scelerisque vel nibh sit amet maximus. Praesent et dui quis elit bibendum elementum a eget velit. Mauris porta lorem ac porttitor congue. Vestibulum lobortis ultrices velit, vitae condimentum elit ultrices a. Vivamus rutrum ultrices eros ac finibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi a purus a nibh eleifend convallis. Praesent non turpis volutpat, imperdiet lacus in, cursus tellus. Etiam elit velit, ornare sit amet nulla vel, aliquam iaculis mauris.
@@ -35,12 +41,12 @@ Donec laoreet leo ligula, ut condimentum mi placerat ut. Sed pretium sollicitudi
 `;
 // tslint:enable:max-line-length
 
-describe('text-generation model', () => {
+describe("text-generation model", () => {
   function createTextDataForTest(sampleLen, sampleStep = 1) {
-    return new TextData('LoremIpsum', FAKE_TEXT, sampleLen, sampleStep);
+    return new TextData("LoremIpsum", FAKE_TEXT, sampleLen, sampleStep);
   }
 
-  it('createModel: 1 LSTM layer', () => {
+  it("createModel: 1 LSTM layer", () => {
     const model = createModel(20, 52, 32);
     expect(model.layers.length).toEqual(2);
     expect(model.inputs.length).toEqual(1);
@@ -49,7 +55,7 @@ describe('text-generation model', () => {
     expect(model.outputs[0].shape).toEqual([null, 52]);
   });
 
-  it('createModel: 2 LSTM layers', () => {
+  it("createModel: 2 LSTM layers", () => {
     const model = createModel(20, 52, [32, 16]);
     expect(model.layers.length).toEqual(3);
     expect(model.inputs.length).toEqual(1);
@@ -58,13 +64,13 @@ describe('text-generation model', () => {
     expect(model.outputs[0].shape).toEqual([null, 52]);
   });
 
-  it('compileModel', () => {
+  it("compileModel", () => {
     const model = createModel(20, 52, 32);
     compileModel(model, 1e-2);
     expect(model.optimizer != null).toEqual(true);
   });
 
-  it('fitModel', async () => {
+  it("fitModel", async () => {
     const sampleLen = 10;
     const textData = createTextDataForTest(sampleLen);
     const model = createModel(textData.sampleLen(), textData.charSetSize(), 16);
@@ -77,21 +83,27 @@ describe('text-generation model', () => {
     const batchEndBatches = [];
     const epochEndEpochs = [];
     const callback = {
-      onBatchEnd: async (batch, logs) =>  {
+      onBatchEnd: async (batch, logs) => {
         batchEndBatches.push(batch);
       },
       onEpochEnd: async (epoch, logs) => {
         epochEndEpochs.push(epoch);
       }
-    }
+    };
     await fitModel(
-        model, textData, epochs, examplesPerEpoch, batchSize, validationSplit,
-        callback);
+      model,
+      textData,
+      epochs,
+      examplesPerEpoch,
+      batchSize,
+      validationSplit,
+      callback
+    );
     expect(batchEndBatches).toEqual([0, 1, 2, 0, 1, 2]);
     expect(epochEndEpochs).toEqual([0, 0]);
   });
 
-  it('generateText', async () => {
+  it("generateText", async () => {
     const sampleLen = 10;
     const textData = createTextDataForTest(sampleLen);
     const model = createModel(textData.sampleLen(), textData.charSetSize(), 16);
@@ -100,11 +112,11 @@ describe('text-generation model', () => {
     const text = await generateText(model, textData, sentenceIndices, 12, 0.5);
     // Assert that the original indices are not altered.
     expect(sentenceIndices).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    expect(typeof text).toEqual('string');
+    expect(typeof text).toEqual("string");
     expect(text.length).toEqual(12);
   });
 
-  it('sample: temperature = 0', async () => {
+  it("sample: temperature = 0", async () => {
     const sampleLen = 10;
     const textData = createTextDataForTest(sampleLen);
     const charSetSize = textData.charSetSize();
@@ -120,7 +132,7 @@ describe('text-generation model', () => {
     expect(sampled).toEqual(charSetSize - 2);
   });
 
-  it('sample: temperature = 0.75', async () => {
+  it("sample: temperature = 0.75", async () => {
     const sampleLen = 10;
     const textData = createTextDataForTest(sampleLen);
     const charSetSize = textData.charSetSize();

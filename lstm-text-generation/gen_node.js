@@ -75,10 +75,10 @@ async function main() {
 
   //if (args.gpu) {
   console.log("Using GPU");
-  require("@tensorflow/tfjs-node-gpu-node-gpu");
+  require("@tensorflow/tfjs-node-gpu-gpu");
   // } else {
   //   console.log('Using CPU');
-  //   require('@tensorflow/tfjs-node-gpu-node');
+  //   require('@tensorflow/tfjs-node-gpu');
   // }
 
   // Load the model.
