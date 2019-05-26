@@ -104,7 +104,7 @@ async function main() {
   const args = parseArgs();
   if (args.gpu) {
     console.log("Using GPU");
-    require("@tensorflow/tfjs-node-gpu-gpu");
+    require("@tensorflow/tfjs-node-gpu");
   } else {
     console.log("Using CPU");
     require("@tensorflow/tfjs-node-gpu");
