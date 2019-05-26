@@ -16,7 +16,7 @@
  */
 
 import * as https from 'https';
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs-node-gpu';
 
 // TODO(cais): Support user-supplied text data.
 export const TEXT_DATA_URLS = {
@@ -36,7 +36,7 @@ export const TEXT_DATA_URLS = {
     needle: 'Shakespeare'
   },
   'tfjs-code': {
-    url: 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7/dist/tf.js',
+    url: 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-node-gpu@0.11.7/dist/tf.js',
     needle: 'TensorFlow.js Code (Compiled, 0.11.7)'
   }
 }

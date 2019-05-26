@@ -26,7 +26,7 @@
  * Networks" http://karpathy.github.io/2015/05/21/rnn-effectiveness/
  */
 
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs-node-gpu';
 
 import {TextData} from './data';
 import * as model from './model';

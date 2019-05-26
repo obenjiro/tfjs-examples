@@ -16,8 +16,8 @@
  * =============================================================================
  */
 
-import * as tf from '@tensorflow/tfjs';
-import * as tfvis from '@tensorflow/tfjs-vis';
+import * as tf from '@tensorflow/tfjs-node-gpu';
+import * as tfvis from '@tensorflow/tfjs-node-gpu-vis';
 
 import {TEXT_DATA_URLS, TextData} from './data';
 import {SaveableLSTMTextGenerator} from './index';

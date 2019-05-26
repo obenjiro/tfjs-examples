@@ -15,8 +15,8 @@
  * =============================================================================
  */
 
-import * as tf from '@tensorflow/tfjs';
-import '@tensorflow/tfjs-node';
+import * as tf from '@tensorflow/tfjs-node-gpu';
+import '@tensorflow/tfjs-node-gpu-node';
 
 import {TextData} from './data';
 import {createModel, compileModel, fitModel, generateText, sample} from './model';

@@ -101,10 +101,10 @@ async function main() {
   const args = parseArgs();
   if (args.gpu) {
     console.log('Using GPU');
-    require('@tensorflow/tfjs-node-gpu');
+    require('@tensorflow/tfjs-node-gpu-node-gpu');
   } else {
     console.log('Using CPU');
-    require('@tensorflow/tfjs-node');
+    require('@tensorflow/tfjs-node-gpu-node');
   }
 
   // Create the text data object.
